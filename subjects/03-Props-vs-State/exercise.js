@@ -15,8 +15,7 @@ import ReactDOM from "react-dom";
 import * as styles from "./styles";
 import data from "./data";
 
-function Tabs({ data }) {
-  const [activeIndex, setActiveIndex] = useState(0);
+function Tabs({ data, activeIndex, changeActiveIndex }) {
 
   const tabs = data.map((item, index) => {
     let isActive = index === activeIndex;
@@ -27,7 +26,7 @@ function Tabs({ data }) {
         key={index}
         className="Tab"
         style={style}
-        onClick={() => setActiveIndex(index)}
+        onClick={() => changeActiveIndex(index)}
       >
         {item.name}
       </div>
@@ -45,11 +44,13 @@ function Tabs({ data }) {
 }
 
 function App({ tabs }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+
   return (
     <div>
       <h1>Props v. State</h1>
-      <button>Go to "Step 2"</button>
-      <Tabs data={tabs} />
+      <button onClick={() => setActiveIndex(1)}>Go to "Step 2"</button>
+      <Tabs data={tabs} activeIndex={activeIndex} changeActiveIndex={setActiveIndex}/>
     </div>
   );
 }
