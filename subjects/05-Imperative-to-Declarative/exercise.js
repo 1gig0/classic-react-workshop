@@ -16,9 +16,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 
-function Modal({ children, title }, ref) {
+function Modal({ children, title, isOpen }) {
+  const modalRef = useRef();
+
+  useEffect(() => {
+    $(modalRef.current).modal(isOpen ? "show" : "hide");
+  },[isOpen]);
+
   return (
-    <div className="modal fade" ref={ref}>
+    <div className="modal fade" ref={modalRef}>
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
@@ -31,28 +37,18 @@ function Modal({ children, title }, ref) {
   );
 }
 
-Modal = React.forwardRef(Modal);
-
 function App() {
-  const modalRef = useRef();
-
-  function openModal() {
-    $(modalRef.current).modal("show");
-  }
-
-  function closeModal() {
-    $(modalRef.current).modal("hide");
-  }
+  const [modalIsOpen, setModalIsOpen] = useState(true);
 
   return (
     <div className="container">
       <h1>Let’s make bootstrap modal declarative</h1>
 
-      <button className="btn btn-primary" onClick={openModal}>
+      <button className="btn btn-primary" onClick={() => setModalIsOpen(true)}>
         open modal
       </button>
 
-      <Modal title="Declarative is better" ref={modalRef}>
+      <Modal title="Declarative is better" isOpen={modalIsOpen}>
         <p>Calling methods on instances is a FLOW not a STOCK!</p>
         <p>
           It’s the dynamic process, not the static program in text
@@ -63,7 +59,7 @@ function App() {
           of state.
         </p>
         <button
-          onClick={closeModal}
+          onClick={() => setModalIsOpen(false)}
           type="button"
           className="btn btn-default"
         >
