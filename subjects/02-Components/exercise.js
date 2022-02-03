@@ -33,27 +33,40 @@ styles.panel = {
   padding: 10
 };
 
-function Tabs() {
+const Tabs = ({data, activeIndex, changeIndex}) => {
+
+  const tabs = data.map((item, index) => {
+    const style = index === activeIndex ? styles.activeTab : styles.tab;
+    return (
+      <div 
+      key={item.id}
+      className="Tab" 
+      style={style}
+      onClick={() => changeIndex(index)}
+      >
+        {item.name}
+      </div>
+    )
+  })
+
   return (
     <div className="Tabs">
-      <div className="Tab" style={styles.activeTab}>
-        Active
-      </div>
-      <div className="Tab" style={styles.tab}>
-        Inactive
-      </div>
+      {tabs}
       <div className="TabPanel" style={styles.panel}>
-        Panel
+        {data[activeIndex] && data[activeIndex].description}
       </div>
     </div>
   );
 }
 
-function App({ sports }) {
+const App = ({ sports }) => {
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
   return (
     <div>
       <h1>Sports</h1>
-      <Tabs data={sports} />
+      <Tabs data={sports} changeIndex={setActiveIndex} activeIndex={activeIndex}/>
     </div>
   );
 }
