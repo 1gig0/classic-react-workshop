@@ -15,6 +15,18 @@ import ReactDOM from "react-dom";
 import * as styles from "./styles";
 import data from "./data";
 
+const StateFullTabs = (props) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  return (
+    <Tabs
+    {...props} 
+    activeIndex={activeIndex}
+    changeActiveIndex={setActiveIndex}
+    />
+  );
+}
+
 function Tabs({ data, activeIndex, changeActiveIndex }) {
 
   const tabs = data.map((item, index) => {
@@ -48,6 +60,7 @@ function App({ tabs }) {
 
   return (
     <div>
+      <StateFullTabs data={tabs} activeIndex={activeIndex} changeActiveIndex={setActiveIndex}/>
       <h1>Props v. State</h1>
       <button onClick={() => setActiveIndex(1)}>Go to "Step 2"</button>
       <Tabs data={tabs} activeIndex={activeIndex} changeActiveIndex={setActiveIndex}/>
