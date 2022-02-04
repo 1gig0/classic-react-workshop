@@ -20,20 +20,52 @@ import ReactDOM from "react-dom";
 import serializeForm from "form-serialize";
 
 function CheckoutForm() {
+
+  const [billingName, setBillingName] = useState('Giga Sagrishvili');
+  const [billingState, setBillingState] = useState('GE');
+
+  const [isSameAddress, setIsSameAddress] = useState(false);
+    
+  const [shippingName, setShippingName] = useState('');
+  const [shippingState, setShippingState] = useState('');
+
+  function onSameAddressChange(value) {
+    setIsSameAddress(!value)
+  }
+
+  function checkoutFormSubmit(event) {
+    event.preventDefault();
+    const values = serializeForm(event.target, {hash: true});
+    console.log(values);
+  }
+
   return (
     <div>
       <h1>Checkout</h1>
-      <form>
+      <form onSubmit={checkoutFormSubmit}>
         <fieldset>
           <legend>Billing Address</legend>
           <p>
             <label>
-              Billing Name: <input type="text" />
+              Billing Name: 
+              <input 
+              type="text" 
+              name="billingName" 
+              defaultValue={billingName}
+              onChange={event => setBillingName(event.target.value)}
+              />
             </label>
           </p>
           <p>
             <label>
-              Billing State: <input type="text" size="2" />
+              Billing State: 
+              <input 
+              type="text" 
+              size="2" 
+              name="billingState" 
+              defaultValue={billingState}
+              onChange={event => setBillingState(event.target.value)}
+              />
             </label>
           </p>
         </fieldset>
@@ -42,17 +74,33 @@ function CheckoutForm() {
 
         <fieldset>
           <label>
-            <input type="checkbox" /> Same as billing
+            <input 
+            type="checkbox" 
+            checked={isSameAddress} 
+            onChange={() => onSameAddressChange(isSameAddress)}/> Same as billing
           </label>
           <legend>Shipping Address</legend>
           <p>
             <label>
-              Shipping Name: <input type="text" />
+              Shipping Name: 
+              <input 
+              type="text" 
+              name="shippingName"
+              value={isSameAddress ? billingName : shippingName}
+              onChange={event => setShippingName(event.target.value)}
+              />
             </label>
           </p>
           <p>
             <label>
-              Shipping State: <input type="text" size="2" />
+              Shipping State: 
+              <input 
+              type="text" 
+              size="2" 
+              name="shippingState"
+              value={isSameAddress ? billingState : shippingState}
+              onChange={event => setShippingState(event.target.value)}
+              />
             </label>
           </p>
         </fieldset>
