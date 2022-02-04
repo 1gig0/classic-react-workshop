@@ -76,7 +76,7 @@ function CheckoutForm() {
           <label>
             <input 
             type="checkbox" 
-            checked={isSameAddress} 
+            defaultChecked={isSameAddress}
             onChange={() => onSameAddressChange(isSameAddress)}/> Same as billing
           </label>
           <legend>Shipping Address</legend>
