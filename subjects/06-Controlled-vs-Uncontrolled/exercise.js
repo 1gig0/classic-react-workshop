@@ -88,6 +88,7 @@ function CheckoutForm() {
               name="shippingName"
               value={isSameAddress ? billingName : shippingName}
               onChange={event => setShippingName(event.target.value)}
+              readOnly={isSameAddress}
               />
             </label>
           </p>
@@ -100,6 +101,7 @@ function CheckoutForm() {
               name="shippingState"
               value={isSameAddress ? billingState : shippingState}
               onChange={event => setShippingState(event.target.value)}
+              readOnly={isSameAddress}
               />
             </label>
           </p>
