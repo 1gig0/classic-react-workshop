@@ -17,11 +17,17 @@
 //   - Arrow right, arrow down should select the next option
 //   - Arrow left, arrow up should select the previous option
 ////////////////////////////////////////////////////////////////////////////////
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
-function RadioGroup({ children, defaultValue }) {
+function RadioGroup({ children, defaultValue,  onChange }) {
   const [optionValue, setOptionValue] = useState(defaultValue);
+
+  useEffect(() => {
+    if(onChange) {
+      onChange(optionValue)
+    }
+  }, [optionValue])
 
   return <div>
     {
@@ -61,11 +67,14 @@ function RadioIcon({ isSelected }) {
 }
 
 function App() {
+  const [optionValue, setOptionValue] = useState('fm');
   return (
     <div>
       <h1>♬ It's about time that we all turned off the radio ♫</h1>
 
-      <RadioGroup defaultValue="fm">
+      <p>Now playing {optionValue}</p>
+
+      <RadioGroup defaultValue={optionValue} onChange={value => setOptionValue(value)}>
         <RadioOption value="am">AM</RadioOption>
         <RadioOption value="fm">FM</RadioOption>
         <RadioOption value="tape">Tape</RadioOption>
